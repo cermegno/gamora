@@ -1,0 +1,41 @@
+### RUN AS FOLLOWS
+### ansible-playbook mye2e.yml --extra-vars "host=alb_cl01 size=2"
+### ansible-playbook mye2e.yml --extra-vars '{"host":"alb_cl01","size":2,"initiators":["21:00:00:24:ff:31:e0:fc"]}'
+###
+### IMPORTANT: Ansible doesn't like hyphens in the names in inventory files
+---
+- name: Create a host and a volume
+  hosts: localhost
+  connection: local
+  vars:
+    #host: "alb-cl01"
+    #size: 1
+    initiators:
+      - 21:00:00:24:ff:31:e9:fc
+      - 21:00:00:24:ff:31:e9:fd
+
+  tasks:
+  - name: Create host
+    dellemc_powerstore_host:
+      array_ip: "{{ target }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      verifycert: False
+      host_name: "{{ host }}"
+      os_type: "Linux"
+      initiators: "{{ initiators }}"
+      state: "present"
+      initiator_state: "present-in-host"
+
+  - name: Create multiple volumes
+    dellemc_powerstore_volume:
+      array_ip: "{{ target }}"
+      user: "{{ username }}"
+      password: "{{ password }}"
+      verifycert: False
+      vol_name: "{{ host + '_1' }}"
+      size: "{{ size }}"
+      host: "{{ host }}"
+      cap_unit: "GB"
+      mapping_state: "mapped"
+      state: "present"
