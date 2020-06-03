@@ -11,8 +11,8 @@
     #host: "alb-cl01"
     #size: 1
     initiators:
-      - 21:00:00:24:ff:31:e9:fc
-      - 21:00:00:24:ff:31:e9:fd
+      - "21:00:00:24:ff:31:e9:{{ '%02d' % range(1, 99) | random }}"
+      - "21:00:00:24:ff:31:e8:{{ '%02d' % range(1, 99) | random }}"
 
   tasks:
   - name: Create host
