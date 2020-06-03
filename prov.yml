@@ -27,7 +27,7 @@
       state: "present"
       initiator_state: "present-in-host"
 
-  - name: Create multiple volumes
+  - name: Create volumes
     dellemc_powerstore_volume:
       array_ip: "{{ target }}"
       user: "{{ username }}"
